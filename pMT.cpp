@@ -1,9 +1,9 @@
 
 pMT::pMT(int hashSelect)
 /**
- * @brief 
+ * @brief
  * @param hashSelect a number corresponding to the hashfunction to use for this pMT
- * @return 
+ * @return
  */
 {
 }
@@ -20,7 +20,7 @@ int pMT::insert(string vote, int time)
 /**
  * @brief insert a vote and time into a leaf node of tree
  * @param vote - a string
- * @param time - an int representing the time 
+ * @param time - an int representing the time
  * @return the number of operations needed to do the insert, -1 if out of memory
  */
 
@@ -36,7 +36,7 @@ int pMT::find(string vote, int time, int hashSelect)
  * @return 0 if not found, else number of opperations required to find the matching vote
  */
 {
-    
+
 }
 
 int pMT::findHash(string mhash)
@@ -51,8 +51,8 @@ int pMT::findHash(string mhash)
 
 string pMT::locateData(string vote)
 /**
- * @brief Function takes a hash of Vote and returns the sequence of (L)eft and (R)ight moves to get to that node starting from root. 
- * @param vote, the data to search for 
+ * @brief Function takes a hash of Vote and returns the sequence of (L)eft and (R)ight moves to get to that node starting from root.
+ * @param vote, the data to search for
  * @return sequence of L's and R's comprising the movement to the leaf node; else return a dot '.'
  */
 {
@@ -60,8 +60,8 @@ string pMT::locateData(string vote)
 
 string pMT::locateHash(string mhash)
 /**
- * @brief Function takes a hash and returns the sequence of (L)eft and (R)ight moves to get to that node starting from root. 
- * @param mhash, the hash to search for 
+ * @brief Function takes a hash and returns the sequence of (L)eft and (R)ight moves to get to that node starting from root.
+ * @param mhash, the hash to search for
  * @return sequence of L's and R's comprising the movement to the hash node, ; else return a dot '.'
  */
 {
@@ -74,8 +74,41 @@ string pMT::hash_1(string key)
  * @brief A function that takes in a key and returns a hash of that key using some custom function
  * @param key, a string
  * @return a hash of the key
+ * creator: Sam
  */
 {
+    char charKey[32];
+
+    // if (key.length() >= 32) {
+    //     for (int i = 0; i < 32; i++) {
+    //         // static int index = 0;
+    //         charKey[i] = key.substr(i, i + 1);
+    //     }
+    // }
+    // else {
+    for (int i = 0, j = 0; i < 32; i++, j++) {
+        if (j == key.length()) {
+            j = 0;
+        }
+
+        charKey[i] = (char) key.at(j);
+    }
+    // }
+
+    string hash;
+    unsigned long myPrime = 4294967291;
+
+    hash = (char) (((((int) charKey[0])) % myPrime) % 127);
+
+    for (int i = 1; i < 32; i++) {
+        hash += (char) (((((int) charKey[i]) * i) % myPrime) % 127);
+    }
+
+    // max ulong 4294967295
+    // max prime in range: 4294967291
+
+    return hash;
+
 }
 
 string pMT::hash_2(string key)
@@ -114,7 +147,7 @@ friend bool pMT::operator !=(const pMT& lhs, const pMT& rhs)
  * @return true if not equal, false otherwise
  */
 {
-    
+
 }
 
 friend pMT pMT::operator ^=(const pMT& lhs, const pMT& rhs)
@@ -125,7 +158,7 @@ friend pMT pMT::operator ^=(const pMT& lhs, const pMT& rhs)
  * @return true if not equal, false otherwise
  */
 {
-    
+
 }
 
 
