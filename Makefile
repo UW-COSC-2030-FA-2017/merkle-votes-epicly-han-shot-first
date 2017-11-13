@@ -5,6 +5,7 @@
 output: vote.o
 	g++ vote.o -o vote
 	make clean
+	vote.exe
 
 vote.o: vote.cpp
 	g++ -c vote.cpp
