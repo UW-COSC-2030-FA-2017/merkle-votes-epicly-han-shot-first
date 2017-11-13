@@ -79,13 +79,7 @@ string pMT::hash_1(string key)
 {
     char charKey[32];
 
-    // if (key.length() >= 32) {
-    //     for (int i = 0; i < 32; i++) {
-    //         // static int index = 0;
-    //         charKey[i] = key.substr(i, i + 1);
-    //     }
-    // }
-    // else {
+    // put the key in a char array of length 32 (maximum output length)
     for (int i = 0, j = 0; i < 32; i++, j++) {
         if (j == key.length()) {
             j = 0;
@@ -93,19 +87,22 @@ string pMT::hash_1(string key)
 
         charKey[i] = (char) key.at(j);
     }
-    // }
+
 
     string hash;
+
+    // max unsigned long 4294967295
+    // max prime in range: 4294967291
     unsigned long myPrime = 4294967291;
 
+    // do the operation on the first character
     hash = (char) (((((int) charKey[0])) % myPrime) % 127);
 
+    // do the operation on the rest
     for (int i = 1; i < 32; i++) {
         hash += (char) (((((int) charKey[i]) * i) % myPrime) % 127);
     }
 
-    // max ulong 4294967295
-    // max prime in range: 4294967291
 
     return hash;
 
