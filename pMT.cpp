@@ -94,6 +94,35 @@ string pMT::hash_3(string key)
  * @return a hash of the key
  */
 {
+	// initialize prime constants 
+	const int A = 15607;
+	const int B = 38303;
+
+	// initialize new string and length
+	string new_key = "";
+	int length = key.length();
+
+	// if length is not 32 characters make it by cycling through
+	// the key and adding more characters
+	if (length < 32) {
+		while (key.length() < 32) 
+		{
+			static int i = 0;
+			key += key.at(i);
+			i++;
+		}
+		length = key.length();
+	}
+
+	// make hash 
+	for (int i = 0; i < length; i++)
+	{
+		int ascii = (unsigned char)key.at(i);
+		new_key += (((((ascii * A) ^ (ascii * B) * i) ) % 94) + 33);
+	}
+
+	return new_key;
+
 }
 
 friend bool pMT::operator ==(const pMT& lhs, const pMT& rhs)
