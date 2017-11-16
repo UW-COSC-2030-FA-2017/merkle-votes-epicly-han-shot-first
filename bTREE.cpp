@@ -9,13 +9,14 @@ bTREE::bTREE()
 
 bTREE::~bTREE()
 {
+	destroy( root );
 }
 
 int bTREE::dataInserted()
 {
 }
 
-int numberOfNodesH(treeNode * subtree)
+int bTREE::numberOfNodesH(treeNode * subtree)
 {
 	if (subtree == NULL)
 		return 0;
@@ -51,4 +52,15 @@ friend bool bTREE::operator !=(const bTREE& lhs, const bTREE& rhs)
 
 friend std::ostream& bTREE::operator <<(std::ostream& out, const bTREE& p)
 {
+}
+
+void bTREE::destroy( treeNode * & subtree)
+{
+	if( subtree != NULL )
+   	{
+      destroy( subtree->leftptr );
+      destroy( subtree->rightptr );
+      delete subtree;
+      subtree = NULL;
+   	}
 }
