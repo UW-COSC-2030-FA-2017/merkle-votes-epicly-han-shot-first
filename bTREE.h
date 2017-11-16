@@ -17,6 +17,10 @@ private:
     //DATASTUCTURE treeNodes tree;
     //any helper private variables you need
 
+    treeNode * root;
+
+    
+
 public:
     bTREE();
     ~bTREE();

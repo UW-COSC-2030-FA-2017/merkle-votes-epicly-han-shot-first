@@ -4,6 +4,7 @@
 //look at descriptions in pMT.h for guidance on what you might need for these function to actually do
 bTREE::bTREE()
 {
+    root = NULL;
 }
 
 bTREE::~bTREE()
