@@ -19,7 +19,7 @@ private:
 
     treeNode * root;
 
-    
+    int numberOfNodesH() const;
 
 public:
     bTREE();

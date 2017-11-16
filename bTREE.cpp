@@ -15,8 +15,18 @@ int bTREE::dataInserted()
 {
 }
 
+int numberOfNodesH(treeNode * subtree)
+{
+	if (subtree == NULL)
+		return 0;
+	else {
+		return numberOfNodesH(subtree->leftptr) + 1 + numberOfNodesH(subtree->rightptr);
+	}
+}
+
 int bTREE::numberOfNodes()
 {
+	numberOfNodesH(root);
 }
 
 int bTREE::insert(string data, int time)
