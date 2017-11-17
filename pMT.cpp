@@ -77,10 +77,10 @@ string pMT::hash_1(string key)
  * creator: Sam
  */
 {
-    char charKey[32];
+    char charKey[64];
 
     // put the key in a char array of length 32 (maximum output length)
-    for (int i = 0, j = 0; i < 32; i++, j++) {
+    for (int i = 0, j = 0; i < 64; i++, j++) {
         if (j == key.length()) {
             j = 0;
         }
@@ -98,12 +98,12 @@ string pMT::hash_1(string key)
     // mod 95 then plus 33 to avoid
 
     // do the operation on the first character
-    hash = (char) ((((((int) charKey[0])) % myPrime) % 94) + 33);
+    hash = (char) ((((((int) charKey[0] + (int) charKey[1])) % myPrime) % 94) + 33);
 
     // do the operation on the rest
-    for (int i = 1; i < 32; i++) {
+    for (int i = 2; i < 63; i += 2) {
 
-        hash += (char) ((((((int) charKey[i]) * i) % myPrime) % 94) + 33);
+        hash += (char) ((((((int) charKey[i] + (int) charKey[i + 1]) * i) % myPrime) % 94) + 33);
     }
 
 
@@ -128,7 +128,7 @@ string pMT::hash_3(string key)
  * @return a hash of the key
  */
 {
-	// initialize prime constants 
+	// initialize prime constants
 	const int A = 15607;
 	const int B = 38303;
 
@@ -139,7 +139,7 @@ string pMT::hash_3(string key)
 	// if length is not 32 characters make it by cycling through
 	// the key and adding more characters
 	if (length < 32) {
-		while (key.length() < 32) 
+		while (key.length() < 32)
 		{
 			static int i = 0;
 			key += key.at(i);
@@ -148,7 +148,7 @@ string pMT::hash_3(string key)
 		length = key.length();
 	}
 
-	// make hash 
+	// make hash
 	for (int i = 0; i < length; i++)
 	{
 		int ascii = (unsigned char)key.at(i);
