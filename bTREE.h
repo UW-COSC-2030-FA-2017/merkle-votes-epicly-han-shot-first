@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <math.h>
 using namespace std;
 
 class bTREE
@@ -20,6 +21,9 @@ private:
     treeNode * root;
 
     int numberOfNodesH() const;
+    int nodeCount = 0;
+
+    void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const;
 
 public:
     bTREE();
