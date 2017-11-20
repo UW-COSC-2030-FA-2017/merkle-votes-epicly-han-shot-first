@@ -143,7 +143,6 @@ string pMT::hash_2(string key)
   hex << hash;
   return hash;
 }
-
 string pMT::hash_3(string key)
 /**
  * @brief A function that takes in a key and returns a hash of that key using some custom function
