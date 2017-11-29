@@ -3,6 +3,9 @@
 #include <math.h>
 using namespace std;
 
+#ifndef BTREE_H
+#define BTREE_H
+
 class bTREE
 {
     struct treeNode{
@@ -20,10 +23,14 @@ private:
 
     treeNode * root;
 
-    int numberOfNodesH() const;
-    int nodeCount = 0;
+    int numberOfNodesH(treeNode * subtree);
+    // dont need node counting variable. just use method
+    void destroy(treeNode * & subtree);
+    void inOrderInsert(treeNode * subtree, string data, int time);
+    int level();
+    void inorder(treeNode * & subtree);
 
-    void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const;
+    //void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const;
 
 public:
     bTREE();
@@ -38,6 +45,7 @@ public:
 
     string locate(string);
 
+    void printTest();
 
     friend bool operator==(const bTREE& lhs, const bTREE& rhs);
     friend bool operator!=(const bTREE& lhs, const bTREE& rhs);
@@ -45,3 +53,5 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const bTREE& p);
 
 };
+
+#endif
