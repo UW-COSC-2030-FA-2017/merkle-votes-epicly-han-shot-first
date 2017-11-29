@@ -137,13 +137,14 @@ string pMT::hash_2(string key)
   //create my hash
   for (i=0; i < length; i++)
   {
-    hash += ((unsigned char)key[i] % prime) + 42))
+    hash += ((unsigned char)key[i] % prime) + 42;
   }
   // use <iomanip>'s "hex" to convert to hexadecimal, thus a string that can be returned.
   hex << hash;
   return hash;
 }
-string pMT::hash_3(string key)
+//Jared's Hash
+string hash_3(string key)
 /**
  * @brief A function that takes in a key and returns a hash of that key using some custom function
  * @param key, a string
@@ -159,14 +160,25 @@ string pMT::hash_3(string key)
 	string new_key = "";
 	int length = key.length();
 
-	// if length is not 32 characters make it by cycling through
+	// if length is < 32 make it 32 by cycling through
 	// the key and adding more characters
+	// if the length is > 32  make it 32 by putting the last chacters first
 	if (length < 32) {
+		int i = 0;
 		while (key.length() < 32)
 		{
-			static int i = 0;
 			key += key.at(i);
 			i++;
+		}
+		length = key.length();
+	}
+	else if (length > 32) {
+		int j = 0;
+		while (key.length() > 32)
+		{
+			key.at(j) = key.at(length - (j + 1));
+			key.erase(length - (j + 1));
+			j++;
 		}
 		length = key.length();
 	}
@@ -175,7 +187,7 @@ string pMT::hash_3(string key)
 	for (int i = 0; i < length; i++)
 	{
 		int ascii = (unsigned char)key.at(i);
-		new_key += (((((ascii * A) ^ (ascii * B) * i) ) % 94) + 33);
+		new_key += (((((ascii * A) ^ (ascii * B) * i) ) % 93) + 33);
 	}
 
 	return new_key;
