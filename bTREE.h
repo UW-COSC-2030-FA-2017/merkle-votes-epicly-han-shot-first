@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <math.h>
+#include <queue>
 using namespace std;
 
 #ifndef BTREE_H
@@ -26,7 +27,9 @@ private:
     int numberOfNodesH(treeNode * subtree);
     // dont need node counting variable. just use method
     void destroy(treeNode * & subtree);
-    void inorder(treeNode * & subtree);
+
+    void displayLeft(ostream & outfile, treeNode  * subtree, string) const;
+    void displayRight(ostream & outfile, treeNode * subtree, string) const;
 
     //void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const;
 
@@ -41,15 +44,15 @@ public:
 
     bool find(string);
 
-    string locate(string);
+    void print(std::ostream& ) const;
 
-    void printTest();
+    string locate(string);
 
     friend bool operator==(const bTREE& lhs, const bTREE& rhs);
     friend bool operator!=(const bTREE& lhs, const bTREE& rhs);
-
-    friend std::ostream& operator<<(std::ostream& out, const bTREE& p);
-
+    
 };
+
+ostream & operator<<(ostream& out, const bTREE& p);
 
 #endif

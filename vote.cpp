@@ -17,14 +17,11 @@ int main(int argc, char **argv)
 	alpha.insert("data5", 1);
 	alpha.insert("data6", 2);
 	alpha.insert("data7", 3);
-	alpha.insert("data8", 4); 	
+	alpha.insert("data8", 4); 
+	alpha.insert("data9", 88);	
 	cout << alpha.numberOfNodes() << endl;
-
-	// using inorder traversal to test
-	// ill show you guys thursday or sooner
-	// after the following methods can be deleted:
-	// printTest
-	// inorder
-	alpha.printTest();
+	cout << "*****Print inorder tree*****" << endl;
+	// for some reason this prints mirrored... 
+	cout << alpha << endl;
 	return 0;
 }
