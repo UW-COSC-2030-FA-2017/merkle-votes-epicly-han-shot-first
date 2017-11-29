@@ -26,8 +26,6 @@ private:
     int numberOfNodesH(treeNode * subtree);
     // dont need node counting variable. just use method
     void destroy(treeNode * & subtree);
-    void inOrderInsert(treeNode * subtree, string data, int time);
-    int level();
     void inorder(treeNode * & subtree);
 
     //void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const;

@@ -35,9 +35,83 @@ int bTREE::numberOfNodes()
 	return numberOfNodesH(root);
 }
 
-bool bTREE::insert(string data, int time)
+bool bTREE::insert(string data, int timeStamp)
 {
-    inOrderInsert(root, data, time);
+    queue<struct treeNode*> q;
+    if (numberOfNodes() > 2)
+    {
+        q.push(root);
+        // Do level order traversal until we find
+        // an empty place. 
+        while (!q.empty()) {
+            treeNode * temp = q.front();
+            q.pop();
+     
+            if (!temp->leftptr) {
+                treeNode * new_node = new treeNode();
+                new_node->data = data;
+                new_node->time = timeStamp;
+                new_node->leftptr = NULL;
+                new_node->rightptr = NULL;
+                new_node->isleaf = true;
+                temp->leftptr = new_node;
+                temp->isleaf = false;
+                break;
+            } else
+                q.push(temp->leftptr);
+     
+            if (!temp->rightptr) {
+                treeNode * new_node = new treeNode();
+                new_node->data = data;
+                new_node->time = timeStamp;
+                new_node->leftptr = NULL;
+                new_node->rightptr = NULL;
+                new_node->isleaf = true;
+                temp->rightptr = new_node;
+                temp->isleaf = false;
+                break;
+            } else
+                q.push(temp->rightptr);
+        }
+    }
+    else 
+    {
+        if (numberOfNodes() > 0)
+        {
+            if (numberOfNodes() == 1)
+            {
+                treeNode * new_node = new treeNode();
+                new_node->data = data;
+                new_node->time = timeStamp;
+                new_node->leftptr = NULL;
+                new_node->rightptr = NULL;
+                new_node->isleaf = true;
+                root->leftptr = new_node;
+                root->isleaf = false;
+            }
+            else if (numberOfNodes() == 2)
+            {
+                treeNode * new_node = new treeNode();
+                new_node->data = data;
+                new_node->time = timeStamp;
+                new_node->leftptr = NULL;
+                new_node->rightptr = NULL;
+                new_node->isleaf = true;
+                root->rightptr = new_node;
+            }
+        }
+        else
+        {
+            // create root node
+            treeNode * new_node = new treeNode();
+            new_node->data = data;
+            new_node->time = timeStamp;
+            new_node->leftptr = NULL;
+            new_node->rightptr = NULL;
+            new_node->isleaf = true;
+            root = new_node;
+        }
+    }
 
     // // if (root == NULL) {
     // //     return false;
@@ -95,84 +169,8 @@ void bTREE::inorder(treeNode * & subtree)
         return;
  
     inorder(subtree->leftptr);
-    cout << subtree->data << " ";
+    cout << subtree->data << " \t" << subtree->isleaf << endl;
     inorder(subtree->rightptr);
-}
-
-void bTREE::inOrderInsert(treeNode * subtree, string data, int timeStamp) { 
-    queue<struct treeNode*> q;
-    if (numberOfNodes() > 2)
-    {
-        q.push(subtree);
-        // Do level order traversal until we find
-        // an empty place. 
-        while (!q.empty()) {
-            treeNode * temp = q.front();
-            q.pop();
-     
-            if (!temp->leftptr) {
-                treeNode * new_node = new treeNode();
-                new_node->data = data;
-                new_node->time = timeStamp;
-                new_node->leftptr = NULL;
-                new_node->rightptr = NULL;
-                new_node->isleaf = true;
-                temp->leftptr = new_node;
-                break;
-            } else
-                q.push(temp->leftptr);
-     
-            if (!temp->rightptr) {
-                treeNode * new_node = new treeNode();
-                new_node->data = data;
-                new_node->time = timeStamp;
-                new_node->leftptr = NULL;
-                new_node->rightptr = NULL;
-                new_node->isleaf = true;
-                temp->rightptr = new_node;
-                break;
-            } else
-                q.push(temp->rightptr);
-        }
-    }
-    else 
-    {
-        if (numberOfNodes() > 0)
-        {
-            if (numberOfNodes() == 1)
-            {
-                treeNode * new_node = new treeNode();
-                new_node->data = data;
-                new_node->time = timeStamp;
-                new_node->leftptr = NULL;
-                new_node->rightptr = NULL;
-                new_node->isleaf = true;
-                root->leftptr = new_node;
-            }
-            else if (numberOfNodes() == 2)
-            {
-                treeNode * new_node = new treeNode();
-                new_node->data = data;
-                new_node->time = timeStamp;
-                new_node->leftptr = NULL;
-                new_node->rightptr = NULL;
-                new_node->isleaf = true;
-                root->rightptr = new_node;
-            }
-        }
-        else
-        {
-            // create root node
-            treeNode * new_node = new treeNode();
-            new_node->data = data;
-            new_node->time = timeStamp;
-            new_node->leftptr = NULL;
-            new_node->rightptr = NULL;
-            new_node->isleaf = true;
-            root = new_node;
-        }
-    }
-
 }
 
 // void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const {
