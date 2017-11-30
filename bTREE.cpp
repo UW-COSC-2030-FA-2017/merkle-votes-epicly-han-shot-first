@@ -17,6 +17,7 @@ bTREE::~bTREE()
 
 int bTREE::dataInserted()
 {
+    //return the number of operations needed to do the insert, -1 if out of memory
     return 0;
 }
 
@@ -186,21 +187,40 @@ string bTREE::locate(string s)
     return "0";
 }
 
-// friend bool bTREE::operator ==(const bTREE& lhs, const bTREE& rhs)
-// {
-//     if (lhs->data.compare(rhs->data) == 0)
-//         return true;
-//     else 
-//         return false;
-// }
+bool operator ==(const bTREE& lhs, const bTREE& rhs)
+{
+    // if left tree == right tree return true
+    // Return true if both trees are empty
+    if (lhs.root == NULL  && rhs.root == NULL) return true;
+ 
+    // Return false if one is empty and other is not
+    if (lhs.root == NULL || rhs.root == NULL)  return false;
+ 
+    // return true if root data is the same AND time is the same
+    if(lhs.root->data.compare(rhs.root->data) == 0 
+        && lhs.root->time == rhs.root->time) 
+        return true;
+    else 
+        return false;
 
-// friend bool bTREE::operator !=(const bTREE& lhs, const bTREE& rhs)
-// {
-//     if (lhs->data.compare(rhs->data) =! 0)
-//         return true;
-//     else         
-//         return false;
-// }
+}
+
+bool operator !=(const bTREE& lhs, const bTREE& rhs)
+{
+    // if left tree != right tree return true
+    // Return false if both trees are empty
+    if (lhs.root == NULL  && rhs.root == NULL) return false;
+ 
+    // Return true if one is empty and other is not
+    if (lhs.root == NULL || rhs.root == NULL)  return true;
+ 
+    // return false if root data is the same AND time is the same
+    if(lhs.root->data.compare(rhs.root->data) == 0 
+        && lhs.root->time == rhs.root->time) 
+        return false;
+    else 
+        return true;
+}
 
 ostream & operator <<(ostream & out, const bTREE & p)
 {
@@ -224,13 +244,13 @@ void bTREE::displayLeft(ostream & outfile, treeNode * subtree, std::string prefi
 {
     if (subtree == NULL)
     {
-        outfile << prefix + "/" << endl;
+        outfile << prefix + "                              /" << endl;
     }
     else
     {
-        displayLeft(outfile, subtree->leftptr, prefix + "    ");
-        outfile << prefix + "/---" << subtree->data << endl;
-        displayRight(outfile, subtree->rightptr, prefix + "|    ");
+        displayLeft(outfile, subtree->leftptr, prefix + "                   ");
+        outfile << prefix + "               /---" << subtree->data << endl;
+        displayRight(outfile, subtree->rightptr, prefix + "              |    ");
     }
 }
 
@@ -238,13 +258,13 @@ void bTREE::displayRight(ostream & outfile, treeNode * subtree, std::string pref
 {
     if (subtree == NULL)
     {
-        outfile << prefix + "\\" << endl;
+        outfile << prefix + "                              \\" << endl;
     }
     else 
     {
-        displayLeft(outfile, subtree->leftptr, prefix + "|    ");
-        outfile << prefix + "\\---" << subtree->data << endl;
-        displayRight(outfile, subtree->rightptr, prefix + "    ");
+        displayLeft(outfile, subtree->leftptr, prefix + "              |    ");
+        outfile << prefix + "               \\---" << subtree->data << endl;
+        displayRight(outfile, subtree->rightptr, prefix + "                   ");
     }
 }
 

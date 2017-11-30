@@ -50,9 +50,8 @@ public:
 
     friend bool operator==(const bTREE& lhs, const bTREE& rhs);
     friend bool operator!=(const bTREE& lhs, const bTREE& rhs);
+    friend ostream & operator<<(ostream& out, const bTREE& p);
     
 };
-
-ostream & operator<<(ostream& out, const bTREE& p);
 
 #endif
