@@ -39,7 +39,7 @@ int bTREE::numberOfNodes()
 bool bTREE::insert(string data, int timeStamp)
 {
     queue<struct treeNode*> q;
-    if (numberOfNodes() > 2)
+    if (numberOfNodes() > 0)
     {
         q.push(root);
         // Do level order traversal until we find
@@ -49,60 +49,82 @@ bool bTREE::insert(string data, int timeStamp)
             q.pop();
      
             if (!temp->leftptr) {
+                // create two new nodes
+                // prev_node copys temp node
+                // new_node makes new node in right ptr
+                treeNode * prev_node = new treeNode();
                 treeNode * new_node = new treeNode();
+
+                // copy temp info to prev_node
+                prev_node->data = temp->data;
+                prev_node->time = temp->time;
+                prev_node->isleaf = true;
+                prev_node->leftptr = NULL;
+                prev_node->rightptr = NULL;
+               
+                // add info to new_node
                 new_node->data = data;
                 new_node->time = timeStamp;
                 new_node->leftptr = NULL;
                 new_node->rightptr = NULL;
                 new_node->isleaf = true;
-                temp->leftptr = new_node;
-                temp->isleaf = false;
-                break;
-            } else
-                q.push(temp->leftptr);
-     
-            if (!temp->rightptr) {
-                treeNode * new_node = new treeNode();
-                new_node->data = data;
-                new_node->time = timeStamp;
-                new_node->leftptr = NULL;
-                new_node->rightptr = NULL;
-                new_node->isleaf = true;
+
+                // make temp node parent of new_node and prev_node
+                // this will be the hash of both
+                temp-> data = new_node->data + prev_node->data;
+                temp->time = 666;
+                temp->leftptr = prev_node;
                 temp->rightptr = new_node;
                 temp->isleaf = false;
                 break;
             } else
+            {
+                q.push(temp->leftptr);
                 q.push(temp->rightptr);
+            }
+     
+            // if (!temp->rightptr) {
+            //     treeNode * new_node = new treeNode();
+            //     new_node->data = data;
+            //     new_node->time = timeStamp;
+            //     new_node->leftptr = NULL;
+            //     new_node->rightptr = NULL;
+            //     new_node->isleaf = true;
+            //     temp->rightptr = new_node;
+            //     temp->isleaf = false;
+            //     break;
+            // } else
+            //     q.push(temp->rightptr);
         }
     }
     else 
     {
-        if (numberOfNodes() > 0)
-        {
-            if (numberOfNodes() == 1)
-            {
-                treeNode * new_node = new treeNode();
-                new_node->data = data;
-                new_node->time = timeStamp;
-                new_node->leftptr = NULL;
-                new_node->rightptr = NULL;
-                new_node->isleaf = true;
-                root->leftptr = new_node;
-                root->isleaf = false;
-            }
-            else if (numberOfNodes() == 2)
-            {
-                treeNode * new_node = new treeNode();
-                new_node->data = data;
-                new_node->time = timeStamp;
-                new_node->leftptr = NULL;
-                new_node->rightptr = NULL;
-                new_node->isleaf = true;
-                root->rightptr = new_node;
-            }
-        }
-        else
-        {
+        // if (numberOfNodes() > 0)
+        // {
+        //     if (numberOfNodes() == 1)
+        //     {
+        //         treeNode * new_node = new treeNode();
+        //         new_node->data = data;
+        //         new_node->time = timeStamp;
+        //         new_node->leftptr = NULL;
+        //         new_node->rightptr = NULL;
+        //         new_node->isleaf = true;
+        //         root->leftptr = new_node;
+        //         root->isleaf = false;
+        //     }
+        //     else if (numberOfNodes() == 2)
+        //     {
+        //         treeNode * new_node = new treeNode();
+        //         new_node->data = data;
+        //         new_node->time = timeStamp;
+        //         new_node->leftptr = NULL;
+        //         new_node->rightptr = NULL;
+        //         new_node->isleaf = true;
+        //         root->rightptr = new_node;
+        //     }
+        // }
+        // else
+        // {
             // create root node
             treeNode * new_node = new treeNode();
             new_node->data = data;
@@ -111,7 +133,7 @@ bool bTREE::insert(string data, int timeStamp)
             new_node->rightptr = NULL;
             new_node->isleaf = true;
             root = new_node;
-        }
+        // }
     }
 
     return true;

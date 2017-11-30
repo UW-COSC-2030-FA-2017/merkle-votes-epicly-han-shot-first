@@ -16,6 +16,8 @@ private:
     string hash_1(string);
     string hash_2(string); 
     string hash_3(string);
+
+    void rehash(bTREE * & tree);
     
 public:
     pMT(int);
@@ -34,7 +36,7 @@ public:
     friend bool operator!=(const pMT& lhs, const pMT& rhs);
     
     friend pMT operator^(const pMT& lhs, const pMT& rhs);
-    
+
     friend std::ostream& operator<<(std::ostream& out, const pMT& p);
     
 };

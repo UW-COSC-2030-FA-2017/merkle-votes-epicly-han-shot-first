@@ -43,8 +43,20 @@ int pMT::insert(string vote, int time)
 		break;
 	}
 
+	if (myMerkle.numberOfNodes() > 2)
+		//rehash(myMerkle);
+
 	return myMerkle.dataInserted();
 }
+
+// void pMT::rehash(bTREE * & tree) 
+// {
+
+// 	if (tree.root->isLeaf)
+// 	{
+// 		// has two children so rehash
+// 	}
+// }
 
 int pMT::find(string vote, int time, int hashSelect)
 /**
