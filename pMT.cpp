@@ -253,7 +253,7 @@ string pMT::hash_3(string key)
 
 }
 
-bool pMT::operator ==(const pMT& lhs, const pMT& rhs)
+bool operator ==(const pMT& lhs, const pMT& rhs)
 /**
  * @brief Comparison between two merkle trees
  * @param lhs, the left hand side of the equality statment
@@ -265,7 +265,7 @@ bool pMT::operator ==(const pMT& lhs, const pMT& rhs)
 	return lhs.myMerkle == rhs.myMerkle;
 }
 
-bool pMT::operator !=(const pMT& lhs, const pMT& rhs)
+bool operator !=(const pMT& lhs, const pMT& rhs)
 /**
  * @brief Comparison between two merkle trees
  * @param lhs, the left hand side of the equality statment
@@ -301,20 +301,24 @@ ostream& operator <<(ostream& out, const pMT& p)
 }
 
 
-void overloadedCaratHelper(bTREE::treeNode * lRoot, bTREE::treeNode * rRoot, pMT& rightSide) {
+void pMT::overloadedCaratHelper(pMT& lhs, bTREE::treeNode * rRoot, pMT& rightSide) {
 	// preorder traversal
 
 	if (!rRoot) {
-		if (find(rRoot->data, rRoot->time, 1) != 0) {
+		if (lhs.find(rRoot->data, rRoot->time, 1) != 0) {
 			rightSide.insert(rRoot->data, rRoot->time);
 		}
 	}
 
-	overloadedCaratHelper(lRoot, rRoot->leftptr, rightSide);
-	overloadedCaratHelper(lRoot, rRoot->rightptr, rightSide);
+	overloadedCaratHelper(lhs, rRoot->leftptr, rightSide);
+	overloadedCaratHelper(lhs, rRoot->rightptr, rightSide);
 }
 
-pMT pMT::operator ^(const pMT& lhs, const pMT& rhs)
+void pMT::helper2(pMT& lhs, pMT& rhs, pMT& rightSide) {
+	overloadedCaratHelper(lhs, rhs.myMerkle.getRoot(), rightSide);
+}
+
+pMT operator ^(pMT& lhs, pMT& rhs)
 /**
  * @brief Where do two trees differ
  * @param lhs
@@ -322,7 +326,7 @@ pMT pMT::operator ^(const pMT& lhs, const pMT& rhs)
  * @return a tree comprised of the right hand side tree nodes that are different from the left
  */
 {
-	pMT rightSide;
-	overloadedCaratHelper(lhs.myMerkle.getRoot(), rhs.myMerkle.getRoot(), rightSide);
+	pMT rightSide(1);
+	rightSide.helper2(lhs, rhs, rightSide);
 	return rightSide;
 }
