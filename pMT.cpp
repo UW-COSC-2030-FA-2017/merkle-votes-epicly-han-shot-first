@@ -30,7 +30,7 @@ int pMT::insert(string vote, int time)
  */
 
 {
-	switch (selectedHash) 
+	switch (selectedHash)
 	{
 		case 1:
 		myMerkle.insert(hash_1(vote), time);
@@ -49,14 +49,29 @@ int pMT::insert(string vote, int time)
 	return myMerkle.dataInserted();
 }
 
-// void pMT::rehash(bTREE * & tree) 
-// {
+void pMT::rehash(bTREE * & tree)
+{
 
-// 	if (tree.root->isLeaf)
-// 	{
-// 		// has two children so rehash
-// 	}
-// }
+	if (tree.root != NULL && !(tree.root->isLeaf))
+	{
+		rehash(tree.root->leftptr);
+        rehash(tree.root->rightptr);
+
+        switch (selectedHash)
+    	{
+    		case 1:
+    		      tree->root->data = hash_1(tree->root->leftptr->data + tree->root->rightptr->data);
+                  break;
+    		case 2:
+    		      tree->root->data = hash_2(tree->root->leftptr->data + tree->root->rightptr->data);
+    		      break;
+    		case 3:
+    		      tree->root->data = hash_3(tree->root->leftptr->data + tree->root->rightptr->data);
+    		      break;
+    	}
+
+	}
+}
 
 int pMT::find(string vote, int time, int hashSelect)
 /**
