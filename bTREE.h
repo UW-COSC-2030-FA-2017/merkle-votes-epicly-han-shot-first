@@ -26,6 +26,8 @@ private:
 
     treeNode * root;
 
+    int counterbitch;
+
     int numberOfNodesH(treeNode * subtree);
     // dont need node counting variable. just use method
     void destroy(treeNode * & subtree);
