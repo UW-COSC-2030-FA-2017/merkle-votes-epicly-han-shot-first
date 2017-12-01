@@ -1,7 +1,7 @@
 #include <iomanip>
 #include "bTREE.h"
 #include "pMT.h"
-#include<iostream>
+#include <iostream>
 #include <string>
 using namespace std;
 pMT::pMT(int hashSelect)
@@ -120,8 +120,10 @@ string pMT::locateData(string vote)
  * @param vote, the data to search for
  * @return sequence of L's and R's comprising the movement to the leaf node; else return a dot '.'
  */
+
 {
-	return "0";
+	string map = myMerkle.locate(vote);
+	return map;
 }
 
 string pMT::locateHash(string mhash)
@@ -131,7 +133,8 @@ string pMT::locateHash(string mhash)
  * @return sequence of L's and R's comprising the movement to the hash node, ; else return a dot '.'
  */
 {
-	return "0";
+	string map = myMerkle.locate(mhash);
+	return map;
 }
 
 
