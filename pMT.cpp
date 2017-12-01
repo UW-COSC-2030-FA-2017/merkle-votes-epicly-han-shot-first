@@ -1,6 +1,6 @@
 #include <iomanip>
 #include "bTREE.h"
-#include "pMt.h"
+#include "pMT.h"
 using namespace std;
 pMT::pMT(int hashSelect)
 /**
@@ -30,7 +30,7 @@ int pMT::insert(string vote, int time)
  */
 
 {
-	
+
 	myMerkle.insert(vote, time);
 
 	if (myMerkle.numberOfNodes() > 2)
@@ -193,7 +193,7 @@ string pMT::hash_2(string key)
    string s = "";
    while (hash > 0) {
    	s = (char) (hash % 10 + 48) + s;
-   	hash / 10; 
+   	hash / 10;
    }
     return s;
 
