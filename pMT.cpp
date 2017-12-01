@@ -168,30 +168,39 @@ string pMT::hash_2(string key)
  * @return a hash of the key
  */
 {
- //  int prime = 2147483647;
- //  int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
- //  int length = key.length();
- //  // if length is not 32 characters make it by cycling through
-	// // the key and adding more characters
- //  // borrowed from Jared's hash function, hash_3
- //  if (length < 32) {
-	// 	while (key.length() < 32)
-	// 	{
-	// 		static int i = 0;
-	// 		key += key.at(i);
-	// 		i++;
-	// 	}
-	// 	length = key.length();
-	// }
- //  //create my hash
- //  for (i=0; i < length; i++)
- //  {
- //    hash += ((unsigned char)key[i] % prime) + 42;
- //  }
- //  // use <iomanip>'s "hex" to convert to hexadecimal, thus a string that can be returned.
- //  hex << hash;
- //  return hash;
-}
+    int prime = 2147483647;
+    int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
+    if length is not 32 characters make it by cycling through
+ 	// the key and adding more characters
+  // borrowed from Jared's hash function, hash_3
+  if (length < 32) {
+ 	 int i = 0;
+ 	 while (key.length() < 32)
+ 	 {
+ 		 key += key.at(i);
+ 		 i++;
+ 	 }
+ 	 length = key.length();
+  }
+  else if (length > 32) {
+ 	 int j = 0;
+ 	 while (key.length() > 32)
+ 	 {
+ 		 key.at(j) = key.at(length - (j + 1));
+ 		 key.erase(length - (j + 1));
+ 		 j++;
+ 	 }
+ 	 length = key.length();
+  }
+    //create my hash
+   for (i=0; i < length; i++)
+   {
+      hash += ((unsigned char)key[i] % prime) + 42;
+   }
+  // use <iomanip>'s "hex" to convert to hexadecimal, thus a string that can be returned.
+    hex << hash;
+    return hash;
+ }
 //Jared's Hash
 string pMT::hash_3(string key)
 /**
