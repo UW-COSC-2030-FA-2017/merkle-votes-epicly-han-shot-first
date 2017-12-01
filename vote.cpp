@@ -44,7 +44,7 @@ int main(int argc, char **argv)
       myfile2.close();
     }
     else cout << "Unable to open file";
-    tester2.insert("jhsbfkjhskj", 7009);
+    //tester2.insert("jhsbfkjhskj", 7009);
 
 
     cout << "***************************************************************************" << endl;
