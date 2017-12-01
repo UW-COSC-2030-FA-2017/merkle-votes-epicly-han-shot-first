@@ -3,6 +3,7 @@
 using namespace std;
 #include <iostream>
 #include <queue>
+#include <algorithm>
 
 //look at descriptions in pMT.h for guidance on what you might need for these function to actually do
 bTREE::bTREE()
@@ -40,16 +41,16 @@ bool bTREE::insert(string data, int timeStamp)
 {
     queue<struct treeNode*> q;
 
-    // used refernce from geeksforgeeks.com 
+    // used refernce from geeksforgeeks.com
     if (numberOfNodes() > 0)
     {
         q.push(root);
         // Do level order traversal until we find
-        // an empty place. 
+        // an empty place.
         while (!q.empty()) {
             treeNode * temp = q.front();
             q.pop();
-     
+
             if (!temp->leftptr) {
                 // create two new nodes
                 // prev_node copys temp node
@@ -63,7 +64,7 @@ bool bTREE::insert(string data, int timeStamp)
                 prev_node->isleaf = true;
                 prev_node->leftptr = NULL;
                 prev_node->rightptr = NULL;
-               
+
                 // add info to new_node
                 new_node->data = data;
                 new_node->time = timeStamp;
@@ -86,7 +87,7 @@ bool bTREE::insert(string data, int timeStamp)
             }
         }
     }
-    else 
+    else
     {
         // create root node
         treeNode * new_node = new treeNode();
@@ -123,10 +124,128 @@ bool bTREE::find(string s)
     return inorderSearch(root, s, found);
 
 }
+bool bTREE::preorderLocate(treeNode * & subtree, string s, string &map)
+{
+    if (subtree == NULL)
+        return false;
 
+    // map += subtree->data;
+
+    if (subtree->data.compare(s) == 0)
+        return true;
+
+    if (preorderLocate(subtree->leftptr, s, map)) {
+        cout << "add L\t" << subtree->leftptr->data <<endl;
+        map += "L";
+        return true;
+    }
+
+    if (preorderLocate(subtree->rightptr, s, map)) {
+        cout << "add R\t" << subtree->rightptr->data <<endl;
+        map += "R";
+        return true;
+    }
+
+    if (map.length() > 0) {
+        cout << "pop \t" << subtree->data <<endl;
+        map = map.erase(map.length()-1);    
+    }
+    
+    return false; 
+
+    // subtree->visit = true;
+
+    // if (subtree == NULL) {
+    //     // if (map.length() > 0) {
+    //     //     map = map.erase(map.length()-1);
+    //     // }
+    //     return;
+    //     // cout << "is NULL";
+    // }
+    // else {
+        
+    //     if (subtree->data.compare(s) == 0) 
+    //     {
+    //         if (subtree == root) {
+    //             return;
+    //         }
+
+    //         // cout << "found";
+
+
+    //     }
+
+
+    //     // cout << "recursing left...";
+
+    //     map += "L";
+    //     preorderLocate(subtree->leftptr, s, map);
+    //     // queue pop
+    //     map = map.erase(map.length()-1);
+
+
+    //     // cout << "recursing right...";
+    //     map += "R";
+    //     preorderLocate(subtree->rightptr, s, map);
+    //     map = map.erase(map.length()-1);      
+
+
+    // }
+
+    // queue pop
+
+  //   if (found) {
+  //      
+  // return;
+  //   }
+  // if (subtree->data.compare(s) == 0)
+  // {
+  //   found = true;
+  // }
+  // if (preorderLocate(subtree->leftptr, s, found, map))
+  // {
+  //   map += "L";
+  // }
+  // if (preorderLocate(subtree->rightptr, s, found, map))
+  // {
+  //   map += "R";
+  // }
+}
 string bTREE::locate(string s)
 {
-    return "0";
+  string map = "";
+  // bool found = false;
+  preorderLocate(root, s, map);
+  if ( map.compare ("") == 0)
+  {
+    return ".";
+  }
+  else
+  {
+    // char temp[map.length()];
+    // for (int i = 0; i < map.length(); i++) {
+    //     temp[i] = map.at(i);
+    // }
+
+    // map = "";
+    // for (int i = map.length()-1 ; i >= 0; i++) {
+    //     map += temp[i];       
+
+    // }
+
+    // std::reverse(0, map.length());
+
+    string map2 = map;
+    int j = 0;
+    for (int i = map.length(); i > 0; i--)
+    {
+        map2.at(j) = map.at(i - 1);
+        j++;
+    }
+
+    return map2;
+  }
+  // return map;
 }
 
 bool operator ==(const bTREE& lhs, const bTREE& rhs)
@@ -134,15 +253,15 @@ bool operator ==(const bTREE& lhs, const bTREE& rhs)
     // if left tree == right tree return true
     // Return true if both trees are empty
     if (lhs.root == NULL  && rhs.root == NULL) return true;
- 
+
     // Return false if one is empty and other is not
     if (lhs.root == NULL || rhs.root == NULL)  return false;
- 
+
     // return true if root data is the same AND time is the same
-    if(lhs.root->data.compare(rhs.root->data) == 0 
-        && lhs.root->time == rhs.root->time) 
+    if(lhs.root->data.compare(rhs.root->data) == 0
+        && lhs.root->time == rhs.root->time)
         return true;
-    else 
+    else
         return false;
 
 }
@@ -152,15 +271,15 @@ bool operator !=(const bTREE& lhs, const bTREE& rhs)
     // if left tree != right tree return true
     // Return false if both trees are empty
     if (lhs.root == NULL  && rhs.root == NULL) return false;
- 
+
     // Return true if one is empty and other is not
     if (lhs.root == NULL || rhs.root == NULL)  return true;
- 
+
     // return false if root data is the same AND time is the same
-    if(lhs.root->data.compare(rhs.root->data) == 0 
-        && lhs.root->time == rhs.root->time) 
+    if(lhs.root->data.compare(rhs.root->data) == 0
+        && lhs.root->time == rhs.root->time)
         return false;
-    else 
+    else
         return true;
 }
 
@@ -174,7 +293,7 @@ void bTREE::print(ostream & outfile) const
 {
     if (root == NULL)
         outfile << "-" << endl;
-    else 
+    else
     {
         displayLeft(outfile, root->leftptr, "    ");
         outfile << "---" << root->data << endl;
@@ -202,7 +321,7 @@ void bTREE::displayRight(ostream & outfile, treeNode * subtree, std::string pref
     {
         outfile << prefix + "                              \\" << endl;
     }
-    else 
+    else
     {
         displayLeft(outfile, subtree->leftptr, prefix + "              |    ");
         outfile << prefix + "               \\---" << subtree->data << endl;

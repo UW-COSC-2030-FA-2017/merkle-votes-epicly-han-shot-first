@@ -196,6 +196,7 @@ string pMT::hash_2(string key)
    	hash / 10; 
    }
     return s;
+
  }
 //Jared's Hash
 string pMT::hash_3(string key)

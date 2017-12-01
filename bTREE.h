@@ -13,6 +13,7 @@ public:
     struct treeNode{
         string data;
         int time;
+        bool visit;
         treeNode* leftptr;
         treeNode* rightptr;
         bool isleaf;
@@ -29,7 +30,7 @@ private:
     // dont need node counting variable. just use method
     void destroy(treeNode * & subtree);
     bool inorderSearch(treeNode*&, string, bool&);
-
+    bool preorderLocate(treeNode * & subtree, string s, string &map);
     void displayLeft(ostream & outfile, treeNode  * subtree, string) const;
     void displayRight(ostream & outfile, treeNode * subtree, string) const;
 
@@ -53,7 +54,7 @@ public:
     friend bool operator==(const bTREE& lhs, const bTREE& rhs);
     friend bool operator!=(const bTREE& lhs, const bTREE& rhs);
     friend ostream & operator<<(ostream& out, const bTREE& p);
-    
+
 };
 
 #endif
