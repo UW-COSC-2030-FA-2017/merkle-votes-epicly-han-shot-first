@@ -3,7 +3,10 @@
 #include "pMT.h"
 #include<iostream>
 #include <string>
+#include <sstream>
+#include <math.h>
 using namespace std;
+
 pMT::pMT(int hashSelect)
 /**
  * @brief
@@ -196,7 +199,11 @@ string pMT::hash_2(string key)
       hash += ((unsigned char)key[i] % prime) * a;
 			a = a * b;
    }
-	 string s = to_string(hash);
+	 
+   ostringstream str1;
+   str1 << hash;
+   string s = str1.str();
+
 	 return s;
  }
 //Jared's Hash
@@ -215,6 +222,7 @@ string pMT::hash_3(string key)
 	// initialize new string and length
 	string new_key = "";
 	int length = key.length();
+  int off_count = ceil(length/32);
 
 	// if length is < 32 make it 32 by cycling through
 	// the key and adding more characters
@@ -234,7 +242,7 @@ string pMT::hash_3(string key)
 		{
 			key.at(j) = key.at(length - (j + 1));
 			key.erase(length - (j + 1));
-			j++;
+			j+= off_count;
 		}
 		length = key.length();
 	}

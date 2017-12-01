@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "pMT.cpp"
-#include "bTREE.cpp"
+#include "pMT.h"
+#include "bTREE.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,7 +8,7 @@
 using namespace std;
 int main(int argc, char **argv)
 {
-	pMT tester(2);
+	pMT tester(3);
     string data, time;
     ifstream myfile ("my_test.txt");
     if (myfile.is_open())
