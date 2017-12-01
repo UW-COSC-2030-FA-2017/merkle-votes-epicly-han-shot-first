@@ -173,7 +173,7 @@ string pMT::hash_2(string key)
     //if length is not 32 characters make it by cycling through
  	// the key and adding more characters
   // borrowed from Jared's hash function, hash_3
-  if (length < 32) {
+  if (key.lengh() < 32) {
  	 int i = 0;
  	 while (key.length() < 32)
  	 {
@@ -193,12 +193,10 @@ string pMT::hash_2(string key)
  	 length = key.length();
   }
     //create my hash
-   for (i=0; i < length; i++)
+   for (int i=0; i < length; i++)
    {
       hash += ((unsigned char)key[i] % prime) + 42;
    }
-  // use <iomanip>'s "hex" to convert to hexadecimal, thus a string that can be returned.
-    hex << hash;
     return hash;
  }
 //Jared's Hash
