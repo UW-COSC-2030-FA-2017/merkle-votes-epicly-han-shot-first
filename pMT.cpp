@@ -1,6 +1,8 @@
 #include <iomanip>
 #include "bTREE.h"
 #include "pMT.h"
+#include<iostream>
+#include <string>
 using namespace std;
 pMT::pMT(int hashSelect)
 /**
@@ -182,47 +184,20 @@ string pMT::hash_2(string key)
  * @brief A function that takes in a key and returns a hash of that key using some custom function
  * @param key, a string
  * @return a hash of the key
+ * ETHAN'S HASH
  */
 {
-    int prime = 2147483647;
-    int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
-    //if length is not 32 characters make it by cycling through
- 	// the key and adding more characters
-  // borrowed from Jared's hash function, hash_3
-    int length = 0;
-  if (key.length() < 32) {
- 	 int i = 0;
- 	 while (key.length() < 32)
- 	 {
- 		 key += key.at(i);
- 		 i++;
- 	 }
- 	 length = key.length();
-  }
-  else if (length > 32) {
- 	 int j = 0;
- 	 while (key.length() > 32)
- 	 {
- 		 key.at(j) = key.at(length - (j + 1));
- 		 key.erase(length - (j + 1));
- 		 j++;
- 	 }
- 	 length = key.length();
-  }
-    //create my hash
-   for (int i=0; i < length; i++)
+   int prime = 2147483647;
+   int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
+	 int a = 378551;
+	 int b = 63689;
+   for (int i=0; i < key.length(); i++)
    {
-      hash += ((unsigned char)key[i] % prime) + 42;
+      hash += ((unsigned char)key[i] % prime) * a;
+			a = a * b;
    }
-
-   // convert hash to string
-   string s = "";
-   while (hash > 0) {
-   	s = (char) (hash % 10 + 48) + s;
-   	hash / 10;
-   }
-    return s;
-
+	 string s = to_string(hash);
+	 return s;
  }
 //Jared's Hash
 string pMT::hash_3(string key)
