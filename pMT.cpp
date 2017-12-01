@@ -190,35 +190,35 @@ string pMT::hash_2(string key)
  * @return a hash of the key
  * ETHAN'S HASH
  */
-{
-   int prime = 2147483647;
-   int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
-	 int a = 378551;
-	 int b = 63689;
-	 int length = key.length();
-	 // a and b pulled from lab 9
-   for (int i=0; i < length; i++)
-   {
-      hash += ((unsigned char)key[i] % prime) * a;
-			a = a * b;
-   }
-	 //string s = to_string(hash);
-	ostringstream str1;
-	str1 << hash;
-  string s = str1.str();
-	if(length < 32)
-	{
-		int numtoadd = 32 - length;
-		ostringstream os;
-		for (int i = 0; i < numtoadd; ++i)
-		{
-    	int digit = rand() % 10;
-    	os << digit;
-		}
-		s = s + os.str();
-	}
- return s;
-}
+ {
+    int prime = 2147483647;
+    int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
+ 	 int a = 378551;
+ 	 int b = 63689;
+ 	 // a and b pulled from lab 9
+    for (int i=0; i < key.length(); i++)
+    {
+       hash += ((unsigned char)key[i] % prime) * a;
+ 			a = a * b;
+    }
+ 	 //string s = to_string(hash);
+ 	 ostringstream str1;
+ 	 str1 << hash;
+ 	 string s = str1.str();
+ 	 while(s.length() < 32)
+ 	 {
+ 		 int digit = rand() % 10;
+ 		 ostringstream str2;
+ 		 str2 << digit;
+ 		 string temp = str2.str();
+ 		 s += temp;
+ 	 }
+ 	 while(s.length() > 32)
+ 	 {
+ 		 s.erase(s.length()-1);
+ 	 }
+ 	 return s;
+  }
 //Jared's Hash
 string pMT::hash_3(string key)
 /**
