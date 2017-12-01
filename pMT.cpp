@@ -1,5 +1,5 @@
 #include <iomanip>
-#include "bTREE.h"
+// #include "bTREE.cpp"
 #include "pMt.h"
 using namespace std;
 pMT::pMT(int hashSelect)
@@ -52,10 +52,10 @@ int pMT::insert(string vote, int time)
 void pMT::rehash(bTREE * & tree)
 {
 
-	if (tree.root != NULL && !(tree.root->isLeaf))
+	if (tree->root != NULL && !(tree->root->isLeaf))
 	{
-		rehash(tree.root->leftptr);
-        rehash(tree.root->rightptr);
+		rehash(tree->root->leftptr);
+        rehash(tree->root->rightptr);
 
         switch (selectedHash)
     	{
@@ -170,7 +170,7 @@ string pMT::hash_2(string key)
 {
     int prime = 2147483647;
     int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
-    if length is not 32 characters make it by cycling through
+    //if length is not 32 characters make it by cycling through
  	// the key and adding more characters
   // borrowed from Jared's hash function, hash_3
   if (length < 32) {

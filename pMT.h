@@ -16,8 +16,6 @@ private:
     string hash_1(string);
     string hash_2(string); 
     string hash_3(string);
-
-    void rehash(bTREE * & tree);
     
 public:
     pMT(int);
@@ -30,6 +28,8 @@ public:
     
     string locateData(string);
     string locateHash(string);
+
+    void rehash(bTREE * & tree);
     
     friend bool operator==(const pMT& lhs, const pMT& rhs);
     
