@@ -1,6 +1,8 @@
 #include <iomanip>
 #include "bTREE.h"
 #include "pMT.h"
+#include<iostream>
+#include <string>
 using namespace std;
 pMT::pMT(int hashSelect)
 /**
@@ -11,6 +13,7 @@ pMT::pMT(int hashSelect)
 {
 	myMerkle = bTREE();
 	selectedHash = hashSelect;
+  counterFind = 0;
 }
 
 pMT::~pMT()
@@ -63,6 +66,23 @@ void pMT::rehash(bTREE::treeNode * tree)
 	}
 }
 
+bool pMT::inorderSearch(bTREE::treeNode * subtree, string s, int time, bool &found)
+{
+  if (subtree != NULL)
+    {
+        inorderSearch(subtree->leftptr, s, time, found);
+        counterFind++;
+        if (subtree->data.compare(s) == 0 && subtree->time == time)
+        {
+            counterFind+=3;
+            found = true;
+        }
+        inorderSearch(subtree->rightptr, s, time, found);
+    }
+
+    return found;
+}
+
 int pMT::find(string vote, int time, int hashSelect)
 /**
  * @brief given a vote, timestamp, and hash function, does this vote exist in the tree?
@@ -72,7 +92,12 @@ int pMT::find(string vote, int time, int hashSelect)
  * @return 0 if not found, else number of opperations required to find the matching vote
  */
 {
-	return 0;
+  // if leaf nodes are "raw strings" why are we given hashSelect as a parameter?
+  bool found = false;
+  if (inorderSearch(myMerkle.getRoot(), vote, time, found))
+    return counterFind;
+  else
+	 return 0;
 }
 
 int pMT::findHash(string mhash)
@@ -82,7 +107,10 @@ int pMT::findHash(string mhash)
  * @return 0 if not found, else number of opperations required to find the matching hash
  */
 {
-	return 0;
+  if (myMerkle.find(mhash))
+    return myMerkle.dataFound();
+  else
+    return 0;
 }
 
 
@@ -156,47 +184,20 @@ string pMT::hash_2(string key)
  * @brief A function that takes in a key and returns a hash of that key using some custom function
  * @param key, a string
  * @return a hash of the key
+ * ETHAN'S HASH
  */
 {
-    int prime = 2147483647;
-    int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
-    //if length is not 32 characters make it by cycling through
- 	// the key and adding more characters
-  // borrowed from Jared's hash function, hash_3
-    int length = 0;
-  if (key.length() < 32) {
- 	 int i = 0;
- 	 while (key.length() < 32)
- 	 {
- 		 key += key.at(i);
- 		 i++;
- 	 }
- 	 length = key.length();
-  }
-  else if (length > 32) {
- 	 int j = 0;
- 	 while (key.length() > 32)
- 	 {
- 		 key.at(j) = key.at(length - (j + 1));
- 		 key.erase(length - (j + 1));
- 		 j++;
- 	 }
- 	 length = key.length();
-  }
-    //create my hash
-   for (int i=0; i < length; i++)
+   int prime = 2147483647;
+   int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
+	 int a = 378551;
+	 int b = 63689;
+   for (int i=0; i < key.length(); i++)
    {
-      hash += ((unsigned char)key[i] % prime) + 42;
+      hash += ((unsigned char)key[i] % prime) * a;
+			a = a * b;
    }
-
-   // convert hash to string
-   string s = "";
-   while (hash > 0) {
-   	s = (char) (hash % 10 + 48) + s;
-   	hash / 10;
-   }
-    return s;
-
+	 string s = to_string(hash);
+	 return s;
  }
 //Jared's Hash
 string pMT::hash_3(string key)
