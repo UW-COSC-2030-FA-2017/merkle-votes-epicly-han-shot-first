@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "pMT.cpp"
-#include "bTREE.cpp"
+#include "pMT.h"
+#include "bTREE.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,7 +8,7 @@
 using namespace std;
 int main(int argc, char **argv)
 {
-	pMT tester(2);
+	pMT tester(1);
     string data, time;
     ifstream myfile ("my_test.txt");
     if (myfile.is_open())
@@ -24,9 +24,39 @@ int main(int argc, char **argv)
     }
     else cout << "Unable to open file";
 
-    cout << tester;
+    cout << "***************************************************************************" << endl;
+    cout << "*****************pMT 1*****************************************************"<< endl;
+    cout << "***************************************************************************" << endl;
+    cout << tester << endl;
 
- 	  cout << endl << tester.findHash("UWOo}3';o)uQ+Ki#_;m5/mcOsi{mQ-'S");
+    pMT tester2(1);
+    string data1, time1;
+    ifstream myfile2 ("my_test.txt");
+    if (myfile2.is_open())
+    {
+      while ( myfile2 >> data1 >> time1)
+      {
+      	istringstream buffer(time1);
+      	int time_val = 0;
+      	buffer >> time_val;
+        cout << tester2.insert(data1, time_val) << endl;
+      }
+      myfile2.close();
+    }
+    else cout << "Unable to open file";
+    tester2.insert("jhsbfkjhskj", 7009);
+
+
+    cout << "***************************************************************************" << endl;
+    cout << "*****************pMT 2*****************************************************"<< endl;
+    cout << "***************************************************************************" << endl;
+    cout << tester2 << endl;
+
+    cout << "***************************************************************************" << endl;
+    cout << "*****************differnece*****************************************************"<< endl;
+    cout << "***************************************************************************" << endl;
+
+     cout << (tester ^ tester2) << endl;
 
 	return 0;
 }

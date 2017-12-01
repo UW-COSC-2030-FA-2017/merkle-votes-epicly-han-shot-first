@@ -323,14 +323,13 @@ ostream& operator <<(ostream& out, const pMT& p)
 void pMT::overloadedCaratHelper(pMT& lhs, bTREE::treeNode * rRoot, pMT& rightSide) {
 	// preorder traversal
 
-	if (!rRoot) {
-		if (lhs.find(rRoot->data, rRoot->time, 1) != 0) {
+	if (rRoot) {
+		if (lhs.find(rRoot->data, rRoot->time, 1) == 0) {
 			rightSide.insert(rRoot->data, rRoot->time);
 		}
+		overloadedCaratHelper(lhs, rRoot->leftptr, rightSide);
+		overloadedCaratHelper(lhs, rRoot->rightptr, rightSide);
 	}
-
-	overloadedCaratHelper(lhs, rRoot->leftptr, rightSide);
-	overloadedCaratHelper(lhs, rRoot->rightptr, rightSide);
 }
 
 void pMT::helper2(pMT& lhs, pMT& rhs, pMT& rightSide) {
