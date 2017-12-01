@@ -9,7 +9,8 @@ using namespace std;
 bTREE::bTREE()
 {
     root = NULL;
-    counterbitch = 0;
+    counterInsert = 0;
+    counterFind = 0;
 }
 
 bTREE::~bTREE()
@@ -20,7 +21,13 @@ bTREE::~bTREE()
 int bTREE::dataInserted()
 {
     //return the number of operations needed to do the insert, -1 if out of memory
-    return counterbitch;
+    return counterInsert;
+}
+
+int bTREE::dataFound()
+{
+    // returns the number of oferations needed to do find
+    return counterFind;
 }
 
 int bTREE::numberOfNodesH(treeNode * subtree)
@@ -41,19 +48,19 @@ int bTREE::numberOfNodes()
 bool bTREE::insert(string data, int timeStamp)
 {
     queue<struct treeNode*> q;
-    counterbitch+=1;
+    counterInsert+=1;
 
     // used refernce from geeksforgeeks.com
     if (numberOfNodes() > 0)
     {
         q.push(root);
-        counterbitch+=1;
+        counterInsert+=1;
         // Do level order traversal until we find
         // an empty place.
         while (!q.empty()) {
             treeNode * temp = q.front();
             q.pop();
-            counterbitch+=2;
+            counterInsert+=2;
 
             if (!temp->leftptr) {
                 // create two new nodes
@@ -83,11 +90,11 @@ bool bTREE::insert(string data, int timeStamp)
                 temp->leftptr = prev_node;
                 temp->rightptr = new_node;
                 temp->isleaf = false;
-                counterbitch+=17;
+                counterInsert+=17;
                 break;
             } else
             {
-                counterbitch+=2;
+                counterInsert+=2;
                 q.push(temp->leftptr);
                 q.push(temp->rightptr);
             }
@@ -95,7 +102,7 @@ bool bTREE::insert(string data, int timeStamp)
     }
     else
     {
-        counterbitch+=7;
+        counterInsert+=7;
         // create root node
         treeNode * new_node = new treeNode();
         new_node->data = data;
@@ -114,8 +121,10 @@ bool bTREE::inorderSearch(treeNode * & subtree, string s, bool &found)
     if (subtree != NULL)
     {
         inorderSearch(subtree->leftptr, s, found);
+        counterFind++;
         if (subtree->data.compare(s) == 0)
         {
+            counterFind++;
             found = true;
         }
         inorderSearch(subtree->rightptr, s, found);
@@ -128,6 +137,7 @@ bool bTREE::find(string s)
 {
     // returns true if exists false if not
     bool found = false;
+    counterFind++;
     return inorderSearch(root, s, found);
 
 }
