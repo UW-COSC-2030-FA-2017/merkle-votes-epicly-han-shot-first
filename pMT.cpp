@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <stdlib.h>
 using namespace std;
 pMT::pMT(int hashSelect)
 /**
@@ -205,6 +206,7 @@ string pMT::hash_2(string key)
  	 ostringstream str1;
  	 str1 << hash;
  	 string s = str1.str();
+	 srand(NULL);
  	 while(s.length() < 32)
  	 {
  		 int digit = rand() % 10;
