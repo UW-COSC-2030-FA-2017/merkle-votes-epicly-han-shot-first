@@ -144,7 +144,7 @@ string pMT::hash_1(string key)
     // max prime in range: 4294967291
     unsigned long myPrime = 4294967291;
 
-    // mod 95 then plus 33 to avoid
+    // mod 95 then plus 33 to avoid unwanted characters
 
     // do the operation on the first character
     hash = (char) ((((((int) charKey[0] + (int) charKey[1])) % myPrime) % 94) + 33);
