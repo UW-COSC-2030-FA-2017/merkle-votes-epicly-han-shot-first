@@ -197,7 +197,7 @@ string pMT::hash_2(string key)
 	 int b = 63689;
 	 int length = key.length();
 	 // a and b pulled from lab 9
-   for (int i=0; i < length i++)
+   for (int i=0; i < length; i++)
    {
       hash += ((unsigned char)key[i] % prime) * a;
 			a = a * b;
@@ -218,6 +218,7 @@ string pMT::hash_2(string key)
 		s = s + os.str();
 	}
  return s;
+}
 //Jared's Hash
 string pMT::hash_3(string key)
 /**
