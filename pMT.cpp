@@ -334,7 +334,7 @@ void pMT::overloadedCaratHelper(pMT& lhs, bTREE::treeNode * rRoot, pMT& rightSid
 
 void pMT::helper2(pMT& lhs, pMT& rhs, pMT& rightSide) {
 	overloadedCaratHelper(lhs, rhs.myMerkle.getRoot(), rightSide);
-	if (rightSide.myMerkle.getRoot()) {
+	if (rightSide.myMerkle.getRoot() == NULL) {
 		rightSide.insert("validated", 0);
 	}
 }

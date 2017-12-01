@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "pMT.h"
-#include "bTREE.h"
+#include "pMT.cpp"
+#include "bTREE.cpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -44,7 +44,7 @@ int main(int argc, char **argv)
       myfile2.close();
     }
     else cout << "Unable to open file";
-    tester2.insert("jhsbfkjhskj", 7009);
+    // tester2.insert("jhsbfkjhskj", 7009);
 
 
     cout << "***************************************************************************" << endl;
