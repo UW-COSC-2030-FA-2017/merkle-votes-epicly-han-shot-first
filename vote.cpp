@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 
     cout << tester;
 
- 	cout << endl << tester.findHash("UWOo}3';o)uQ+Ki#_;m5/mcOsi{mQ-'S");
+ 	  cout << endl << tester.findHash("UWOo}3';o)uQ+Ki#_;m5/mcOsi{mQ-'S");
 
 	return 0;
 }

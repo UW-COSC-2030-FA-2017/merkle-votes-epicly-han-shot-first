@@ -3,6 +3,7 @@
 #include "pMT.h"
 #include <iostream>
 #include <string>
+#include <sstream>
 using namespace std;
 pMT::pMT(int hashSelect)
 /**
@@ -194,12 +195,16 @@ string pMT::hash_2(string key)
    int hash = 5381; //"5381 is just a number that, in testing, resulted in fewer collisions and better avalanching." - stackoverflow user Mahmoud Al-Qudsi
 	 int a = 378551;
 	 int b = 63689;
+	 // a and b pulled from lab 9
    for (int i=0; i < key.length(); i++)
    {
       hash += ((unsigned char)key[i] % prime) * a;
 			a = a * b;
    }
-	 string s = to_string(hash);
+	 //string s = to_string(hash);
+	 ostringstream str1;
+	 str1 << hash;
+	 string s = str1.str();
 	 return s;
  }
 //Jared's Hash
