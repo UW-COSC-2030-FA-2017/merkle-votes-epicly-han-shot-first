@@ -26,7 +26,7 @@ private:
 
     treeNode * root;
 
-    int counterbitch;
+    int counterInsert, counterFind;
 
     int numberOfNodesH(treeNode * subtree);
     // dont need node counting variable. just use method
@@ -41,6 +41,7 @@ public:
     ~bTREE();
 
     int dataInserted();
+    int dataFound();
     int numberOfNodes();
 
     treeNode * getRoot();

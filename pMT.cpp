@@ -11,6 +11,7 @@ pMT::pMT(int hashSelect)
 {
 	myMerkle = bTREE();
 	selectedHash = hashSelect;
+  counterFind = 0;
 }
 
 pMT::~pMT()
@@ -63,6 +64,23 @@ void pMT::rehash(bTREE::treeNode * tree)
 	}
 }
 
+bool pMT::inorderSearch(bTREE::treeNode * subtree, string s, int time, bool &found)
+{
+  if (subtree != NULL)
+    {
+        inorderSearch(subtree->leftptr, s, time, found);
+        counterFind++;
+        if (subtree->data.compare(s) == 0 && subtree->time == time)
+        {
+            counterFind+=3;
+            found = true;
+        }
+        inorderSearch(subtree->rightptr, s, time, found);
+    }
+
+    return found;
+}
+
 int pMT::find(string vote, int time, int hashSelect)
 /**
  * @brief given a vote, timestamp, and hash function, does this vote exist in the tree?
@@ -72,7 +90,12 @@ int pMT::find(string vote, int time, int hashSelect)
  * @return 0 if not found, else number of opperations required to find the matching vote
  */
 {
-	return 0;
+  // if leaf nodes are "raw strings" why are we given hashSelect as a parameter?
+  bool found = false;
+  if (inorderSearch(myMerkle.getRoot(), vote, time, found))
+    return counterFind;
+  else
+	 return 0;
 }
 
 int pMT::findHash(string mhash)
@@ -82,7 +105,10 @@ int pMT::findHash(string mhash)
  * @return 0 if not found, else number of opperations required to find the matching hash
  */
 {
-	return 0;
+  if (myMerkle.find(mhash))
+    return myMerkle.dataFound();
+  else
+    return 0;
 }
 
 

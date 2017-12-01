@@ -16,6 +16,10 @@ private:
     string hash_1(string);
     string hash_2(string); 
     string hash_3(string);
+
+    bool inorderSearch(bTREE::treeNode * tree, string, int, bool&);
+
+    int counterFind;
     
 public:
     pMT(int hashSelect);
