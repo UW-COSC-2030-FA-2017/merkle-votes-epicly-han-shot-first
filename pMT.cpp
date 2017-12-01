@@ -197,7 +197,8 @@ string pMT::hash_2(string key)
    {
       hash += ((unsigned char)key[i] % prime) + 42;
    }
-    return hash;
+
+    return (string) hash;
  }
 //Jared's Hash
 string pMT::hash_3(string key)
