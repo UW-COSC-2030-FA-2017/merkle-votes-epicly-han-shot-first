@@ -27,11 +27,10 @@ private:
     int numberOfNodesH(treeNode * subtree);
     // dont need node counting variable. just use method
     void destroy(treeNode * & subtree);
+    bool inorderSearch(treeNode*&, string, bool&);
 
     void displayLeft(ostream & outfile, treeNode  * subtree, string) const;
     void displayRight(ostream & outfile, treeNode * subtree, string) const;
-
-    //void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const;
 
 public:
     bTREE();

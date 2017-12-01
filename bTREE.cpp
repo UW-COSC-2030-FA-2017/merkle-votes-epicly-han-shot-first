@@ -39,6 +39,8 @@ int bTREE::numberOfNodes()
 bool bTREE::insert(string data, int timeStamp)
 {
     queue<struct treeNode*> q;
+
+    // used refernce from geeksforgeeks.com 
     if (numberOfNodes() > 0)
     {
         q.push(root);
@@ -71,7 +73,7 @@ bool bTREE::insert(string data, int timeStamp)
 
                 // make temp node parent of new_node and prev_node
                 // this will be the hash of both
-                temp-> data = new_node->data + prev_node->data;
+                temp-> data = "parent";
                 temp->time = 666;
                 temp->leftptr = prev_node;
                 temp->rightptr = new_node;
@@ -82,126 +84,44 @@ bool bTREE::insert(string data, int timeStamp)
                 q.push(temp->leftptr);
                 q.push(temp->rightptr);
             }
-     
-            // if (!temp->rightptr) {
-            //     treeNode * new_node = new treeNode();
-            //     new_node->data = data;
-            //     new_node->time = timeStamp;
-            //     new_node->leftptr = NULL;
-            //     new_node->rightptr = NULL;
-            //     new_node->isleaf = true;
-            //     temp->rightptr = new_node;
-            //     temp->isleaf = false;
-            //     break;
-            // } else
-            //     q.push(temp->rightptr);
         }
     }
     else 
     {
-        // if (numberOfNodes() > 0)
-        // {
-        //     if (numberOfNodes() == 1)
-        //     {
-        //         treeNode * new_node = new treeNode();
-        //         new_node->data = data;
-        //         new_node->time = timeStamp;
-        //         new_node->leftptr = NULL;
-        //         new_node->rightptr = NULL;
-        //         new_node->isleaf = true;
-        //         root->leftptr = new_node;
-        //         root->isleaf = false;
-        //     }
-        //     else if (numberOfNodes() == 2)
-        //     {
-        //         treeNode * new_node = new treeNode();
-        //         new_node->data = data;
-        //         new_node->time = timeStamp;
-        //         new_node->leftptr = NULL;
-        //         new_node->rightptr = NULL;
-        //         new_node->isleaf = true;
-        //         root->rightptr = new_node;
-        //     }
-        // }
-        // else
-        // {
-            // create root node
-            treeNode * new_node = new treeNode();
-            new_node->data = data;
-            new_node->time = timeStamp;
-            new_node->leftptr = NULL;
-            new_node->rightptr = NULL;
-            new_node->isleaf = true;
-            root = new_node;
-        // }
+        // create root node
+        treeNode * new_node = new treeNode();
+        new_node->data = data;
+        new_node->time = timeStamp;
+        new_node->leftptr = NULL;
+        new_node->rightptr = NULL;
+        new_node->isleaf = true;
+        root = new_node;
     }
 
     return true;
-
-    // // if (root == NULL) {
-    // //     return false;
-    // // }
-    // int nodeCount = numberOfNodes();
-
-    // if (nodeCount == 0) {   // inserting at the root position
-    //     treeNode * leaf = new treeNode();
-
-    //     leaf->data = data;
-    //     leaf->time = time;
-    //     leaf->leftptr = NULL;
-    //     leaf->rightptr = NULL;
-    //     leaf->isleaf = true;
-
-    //     root = leaf;
-
-    //     nodeCount++;
-    //     return true;
-    // }
-
-    // int h = ceil(log2(nodeCount + 1));
-    // int trigger = (int) ((double) pow(2, h - 1) - nodeCount); //(double) pow(2, h - 2) - (double) (pow(2, h - 1) - nodeCount));
-    // if (trigger < 0) {
-    //     trigger = -trigger;
-    // }
-
-    // if (trigger > 0) {  // add to current row
-    //     // trigger is the number of leafs to count in a postorder traversal
-    //     // if trigger == 0 then insert leaf
-    //     // if post order traversal to leaf -> trigger-- (still within this if)
-
-    //     // post order traversal
-    //     // call postOrderInsert
-
-
-    // }
-    // else {              // make a new row
-    //     // leftmost traversal OR the first node edited in in a postOrder traversal
-    // }
-
-    // // do after all operations
-    // nodeCount++;
-
 }
 
-// void postOrderInsert(treeNode * subtree, treeNode * leaf, int trigger) const {
-//         if (trigger == 0) {
-//             // traverse to next leaf
-//             // subtree
+bool bTREE::inorderSearch(treeNode * & subtree, string s, bool &found)
+{
+    if (subtree != NULL)
+    {
+        inorderSearch(subtree->leftptr, s, found);
+        if (subtree->data.compare(s) == 0)
+        {
+            found = true;
+        }
+        inorderSearch(subtree->rightptr, s, found);
+    }
 
-//             // modify parent to not be a leaf if it is a leaf
-//             return;
-//         }
-
-//         if (subtree->isleaf && trigger != 0) {
-//             trigger--;
-//         }
-//     // } while (trigger < 0);
-// }
+    return found;
+}
 
 bool bTREE::find(string s)
 {
     // returns true if exists false if not
-    return false;
+    bool found = false;
+    return inorderSearch(root, s, found);
+
 }
 
 string bTREE::locate(string s)
