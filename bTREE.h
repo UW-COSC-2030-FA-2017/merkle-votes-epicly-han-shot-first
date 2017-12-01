@@ -2,7 +2,6 @@
 #include <string>
 #include <math.h>
 #include <queue>
-// #include "pMT.h"
 using namespace std;
 
 #ifndef BTREE_H
@@ -10,6 +9,7 @@ using namespace std;
 
 class bTREE
 {
+public:
     struct treeNode{
         string data;
         int time;
@@ -40,6 +40,8 @@ public:
     int dataInserted();
     int numberOfNodes();
 
+    treeNode * getRoot();
+
     bool insert(string, int);
 
     bool find(string);
@@ -47,10 +49,6 @@ public:
     void print(std::ostream& ) const;
 
     string locate(string);
-
-    // friend class pMT;
-
-    //friend void rehash(bTREE * & tree);
 
     friend bool operator==(const bTREE& lhs, const bTREE& rhs);
     friend bool operator!=(const bTREE& lhs, const bTREE& rhs);

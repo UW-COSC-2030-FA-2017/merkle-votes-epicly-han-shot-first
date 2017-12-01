@@ -1,5 +1,5 @@
 #include <iomanip>
-// #include "bTREE.cpp"
+#include "bTREE.h"
 #include "pMt.h"
 using namespace std;
 pMT::pMT(int hashSelect)
@@ -30,43 +30,33 @@ int pMT::insert(string vote, int time)
  */
 
 {
-	switch (selectedHash)
-	{
-		case 1:
-		myMerkle.insert(hash_1(vote), time);
-		break;
-		case 2:
-		myMerkle.insert(hash_2(vote), time);
-		break;
-		case 3:
-		myMerkle.insert(hash_3(vote), time);
-		break;
-	}
+	
+	myMerkle.insert(vote, time);
 
 	if (myMerkle.numberOfNodes() > 2)
-		//rehash(myMerkle);
+		rehash(myMerkle.getRoot());
 
 	return myMerkle.dataInserted();
 }
 
-void pMT::rehash(bTREE * & tree)
+void pMT::rehash(bTREE::treeNode * tree)
 {
 
-	if (tree->root != NULL && !(tree->root->isLeaf))
+	if (tree != NULL && !(tree->isleaf))
 	{
-		rehash(tree->root->leftptr);
-        rehash(tree->root->rightptr);
+		rehash(tree->leftptr);
+        rehash(tree->rightptr);
 
         switch (selectedHash)
     	{
     		case 1:
-    		      tree->root->data = hash_1(tree->root->leftptr->data + tree->root->rightptr->data);
+    		      tree->data = hash_1(tree->leftptr->data + tree->rightptr->data);
                   break;
     		case 2:
-    		      tree->root->data = hash_2(tree->root->leftptr->data + tree->root->rightptr->data);
+    		      tree->data = hash_2(tree->leftptr->data + tree->rightptr->data);
     		      break;
     		case 3:
-    		      tree->root->data = hash_3(tree->root->leftptr->data + tree->root->rightptr->data);
+    		      tree->data = hash_3(tree->leftptr->data + tree->rightptr->data);
     		      break;
     	}
 
@@ -173,7 +163,8 @@ string pMT::hash_2(string key)
     //if length is not 32 characters make it by cycling through
  	// the key and adding more characters
   // borrowed from Jared's hash function, hash_3
-  if (key.lengh() < 32) {
+    int length = 0;
+  if (key.length() < 32) {
  	 int i = 0;
  	 while (key.length() < 32)
  	 {
@@ -197,7 +188,14 @@ string pMT::hash_2(string key)
    {
       hash += ((unsigned char)key[i] % prime) + 42;
    }
-    return hash;
+
+   // convert hash to string
+   string s = "";
+   while (hash > 0) {
+   	s = (char) (hash % 10 + 48) + s;
+   	hash / 10; 
+   }
+    return s;
  }
 //Jared's Hash
 string pMT::hash_3(string key)

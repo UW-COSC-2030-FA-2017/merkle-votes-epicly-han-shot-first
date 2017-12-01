@@ -220,3 +220,8 @@ void bTREE::destroy( treeNode * & subtree)
       subtree = NULL;
    	}
 }
+
+bTREE::treeNode* bTREE::getRoot()
+{
+    return root;
+}
