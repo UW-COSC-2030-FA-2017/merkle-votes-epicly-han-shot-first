@@ -1,7 +1,7 @@
 #include <iomanip>
 #include "bTREE.h"
 #include "pMT.h"
-#include<iostream>
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <math.h>
@@ -123,8 +123,10 @@ string pMT::locateData(string vote)
  * @param vote, the data to search for
  * @return sequence of L's and R's comprising the movement to the leaf node; else return a dot '.'
  */
+
 {
-	return "0";
+	string map = myMerkle.locate(vote);
+	return map;
 }
 
 string pMT::locateHash(string mhash)
@@ -134,7 +136,8 @@ string pMT::locateHash(string mhash)
  * @return sequence of L's and R's comprising the movement to the hash node, ; else return a dot '.'
  */
 {
-	return "0";
+	string map = myMerkle.locate(mhash);
+	return map;
 }
 
 
@@ -258,25 +261,29 @@ string pMT::hash_3(string key)
 
 }
 
-// friend bool pMT::operator ==(const pMT& lhs, const pMT& rhs)
-// /**
-//  * @brief Comparison between two merkle trees
-//  * @param lhs, the left hand side of the equality statment
-//  * @param rhs, the right hand side of the equality statement
-//  * @return true if equal, false otherwise
-//  */
-// {
-// }
+bool pMT::operator ==(const pMT& lhs, const pMT& rhs)
+/**
+ * @brief Comparison between two merkle trees
+ * @param lhs, the left hand side of the equality statment
+ * @param rhs, the right hand side of the equality statement
+ * @return true if equal, false otherwise
+ */
+{
+	// return (lhs.myMerkle.getRoot()->data.compare(rhs.myMerkle.getRoot()->data) == 0) ? true : false;
+	return lhs.myMerkle == rhs.myMerkle;
+}
 
-// friend bool pMT::operator !=(const pMT& lhs, const pMT& rhs)
-// /**
-//  * @brief Comparison between two merkle trees
-//  * @param lhs, the left hand side of the equality statment
-//  * @param rhs, the right hand side of the equality statement
-//  * @return true if not equal, false otherwise
-//  */
-// {
-// }
+bool pMT::operator !=(const pMT& lhs, const pMT& rhs)
+/**
+ * @brief Comparison between two merkle trees
+ * @param lhs, the left hand side of the equality statment
+ * @param rhs, the right hand side of the equality statement
+ * @return true if not equal, false otherwise
+ */
+{
+	// return (lhs.myMerkle.getRoot()->data.compare(rhs.myMerkle.getRoot()->data) != 0) ? true : false;
+	return lhs.myMerkle != rhs.myMerkle;
+}
 
 // friend pMT pMT::operator ^=(const pMT& lhs, const pMT& rhs)
 // /**
@@ -302,12 +309,28 @@ ostream& operator <<(ostream& out, const pMT& p)
 }
 
 
-// friend pMT pMT::operator ^(const pMT& lhs, const pMT& rhs)
-// /**
-//  * @brief Where do two trees differ
-//  * @param lhs
-//  * @param rhs
-//  * @return a tree comprised of the right hand side tree nodes that are different from the left
-//  */
-// {
-// }
+void overloadedCaratHelper(bTREE::treeNode * lRoot, bTREE::treeNode * rRoot, pMT& rightSide) {
+	// preorder traversal
+
+	if (!rRoot) {
+		if (find(rRoot->data, rRoot->time, 1) != 0) {
+			rightSide.insert(rRoot->data, rRoot->time);
+		}
+	}
+
+	overloadedCaratHelper(lRoot, rRoot->leftptr, rightSide);
+	overloadedCaratHelper(lRoot, rRoot->rightptr, rightSide);
+}
+
+pMT pMT::operator ^(const pMT& lhs, const pMT& rhs)
+/**
+ * @brief Where do two trees differ
+ * @param lhs
+ * @param rhs
+ * @return a tree comprised of the right hand side tree nodes that are different from the left
+ */
+{
+	pMT rightSide;
+	overloadedCaratHelper(lhs.myMerkle.getRoot(), rhs.myMerkle.getRoot(), rightSide);
+	return rightSide;
+}
